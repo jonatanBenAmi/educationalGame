@@ -20,7 +20,8 @@ public class MouseInteraction : MonoBehaviour
 	private Vector3 screenPoint;
 	private Vector3 offset;
 
-	
+	//should restrict the object within this field
+	  
 
 	public void OnMouseDown()
 	{
@@ -36,6 +37,8 @@ public class MouseInteraction : MonoBehaviour
 
 		Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
 		transform.position = curPosition;
+
+		//should restrict the object within this field
 		rigidbody.position = new Vector3(
 			Mathf.Clamp(rigidbody.position.x,boundary.xMin,boundary.xMax),
 			Mathf.Clamp (rigidbody.position.y,boundary.yMin,boundary.yMax),

@@ -7,7 +7,8 @@ using System.Collections.Generic;
 
 public class InputField : MonoBehaviour {
 	
-	
+	public AudioClip Song1, Song2, Song3;//Here we add the audio-tracks for the background music
+	public int Background = 0; //This is used to change between the background image files. 
 	public GameObject Obj; //we will have to establish a connection to the scanner object
 	//will be used to store the "wrong" sound
 	public AudioClip buzz;
@@ -21,7 +22,15 @@ public class InputField : MonoBehaviour {
 	public int numberGiven;
 	//we will a reference to the AnswerGiven
 	public string text2String;
-	
+	//points for correct answers
+	public int credit = 0;
+	//registering wrong answers
+	public int punish = 0;
+	//variable used to pimp my font
+	public GUIStyle fontStyle= null;
+	//texture for gui (the credit system) this will store the thumbs up icon.
+	public Texture thumbsUpGui;
+	//the text used to tell if the answer given is correct or wrong
 	public Text wrongOrRight;
 	//array to store items to calculate with;
 	public string[] gameItems;
@@ -38,7 +47,10 @@ public class InputField : MonoBehaviour {
 		placeholderText = GameObject.Find("Placeholder").GetComponent<Text>();
 		Obj = GameObject.Find ("scanner"); //creating the scanner reference
 		source = GetComponent<AudioSource>();
-		gameItems = new string[4] {"Banana" , "Apple" , "milk", "pear"}; //this is our game object from the resources that we can spawn
+		gameItems = new string[8] {"Orange" , "Lollipop" , "Apple", "Milk", "Banana", "GiftBox","CerealBox","Redbull"}; //this is our game object from the resources that we can spawn
+		source.PlayOneShot(Song1,15f);
+		//font size for screen width = 1920 is equal 30, then calculate new font size (for the credit gui)
+			fontStyle.fontSize = (int)(30.0f * (float)(Screen.width) / 1920.0f);
 
 		reset();
 	}
@@ -89,15 +101,28 @@ public class InputField : MonoBehaviour {
 			Debug.Log ("correct");
 			wrongOrRight.text = "rigtigt!";
 			source.PlayOneShot(applaus,15F);
+			credit+=50;
 			scenario+=1;
 			reset();
 		}
 		else{
 			
 			wrongOrRight.text="forkert!";
+			credit-=50;
+			punish+=1;
 			source.PlayOneShot(buzz,15F);//play our sound source
 			reset();
 		}
+	}
+
+	//gui displaying the credit system and giving the user stats related to their effort
+	public void OnGUI(){
+		string creditText;
+		 
+
+		GUI.TextField(new Rect(Screen.width - 160,80,160,110),"point: " + credit.ToString() +"\nforkerte svar: "+ punish.ToString (), fontStyle); //the two first value controls the length and height of the box, while the last two controls the location on screen.
+
+		//GUI.DrawTexture(new Rect(Screen.width - 130,95,90,90),thumbsUpGui);
 	}
 
 	public void reset(){
@@ -114,17 +139,126 @@ public class InputField : MonoBehaviour {
 		}else if(scenario==1){
 			numberOfItemsToScanNext = 2;
 			temp.scenario = scenario;
-			newItems = new int[2]{ 0 , 1};
+			newItems = new int[2]{ 2 , 1};
 			makeNewItems(newItems,numberOfItemsToScanNext);
 		}else if(scenario==2){
 			numberOfItemsToScanNext = 2;
 			temp.scenario = scenario;
-			newItems = new int[2]{ 2 , 3};
+			newItems = new int[2]{ 2 , 2};
 			makeNewItems(newItems,numberOfItemsToScanNext);
 		}else if(scenario==3){
-			numberOfItemsToScanNext = 3;
+			numberOfItemsToScanNext = 2;
 			temp.scenario = scenario;
-			newItems = new int[3]{ 0 , 2 , 3};
+			newItems = new int[2]{ 0 , 3};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==4){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 0 , 4};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==5){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 1 , 4};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==6){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 2 , 3};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==7){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 0 , 6};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==8){
+			Background += 1;//Change background image
+			source.PlayOneShot(Song2,15F);//Change bacground song
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 0 , 7};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==9){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 1 , 7};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==10){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 1 , 3};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==11){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 0 , 6};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==12){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 2 , 3};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==13){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 4 , 5};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==14){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 1 , 7};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==15){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 4 , 7};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==16){
+			Background += 1;//Change background image
+			source.PlayOneShot(Song3,15F);//Change bacground song
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 0 , 1};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==17){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 2 , 3};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==18){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 2 , 4};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==19){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 3 , 4};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==20){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 1 , 3};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==21){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 3 , 6};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==22){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 2 , 6};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==23){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 5 , 2};
+			makeNewItems(newItems,numberOfItemsToScanNext);
+		}else if(scenario==24){
+			numberOfItemsToScanNext = 2;
+			temp.scenario = scenario;
+			newItems = new int[2]{ 2 , 7};
 			makeNewItems(newItems,numberOfItemsToScanNext);
 		}
 		// Set the variables in
